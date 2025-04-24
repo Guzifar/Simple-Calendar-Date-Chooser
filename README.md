@@ -1,55 +1,46 @@
-# Simple-Calendar-Date-Chooser
+# Simple Calendar Date Chooser
 
-The Simple Calendar Date Chooser is a customizable Java Swing component (JPanel) for selecting dates. It offers a clean calendar interface to pick single dates or date ranges, with options to customize colors, fonts, and behavior. Perfect for apps needing a date picker, it integrates seamlessly with NetBeans 8.2's UI Builder for easy customization via the Properties window.
-Features
+## Description
+The **Simple Calendar Date Chooser** is a customizable Java Swing component (`JPanel`) for selecting dates. It offers a clean calendar interface to pick single dates or date ranges, with options to customize colors, fonts, and behavior. Perfect for apps needing a date picker, it integrates seamlessly with NetBeans 8.2's UI Builder for easy customization via the Properties window.
 
-Selection Modes: Choose single dates (SINGLE) or a date range (RANGE).
-Customizable Colors:
-Backgrounds: Single selection, range start/end, range middle, today.
-Foregrounds: Single selection, range start/end, range middle, today (separate for single/range modes).
-Colors for headers, navigation, and highlighted dates.
+## Features
+- **Selection Modes**: Choose single dates (`SINGLE`) or a date range (`RANGE`).
+- **Customizable Colors**:
+  - Backgrounds: Single selection, range start/end, range middle, today.
+  - Foregrounds: Single selection, range start/end, range middle, today (separate for single/range modes).
+  - Colors for headers, navigation, and highlighted dates.
+- **Customizable Fonts**: For month/year, day headers, day buttons, and navigation buttons.
+- **Behavior Options**:
+  - Disable past dates or Sundays.
+  - Highlight specific dates (e.g., holidays).
+  - Right-click to clear selections.
+- **Navigation**: Switch months with arrow buttons (with hover effects).
+- **NetBeans Support**: Edit properties in NetBeans Properties window.
 
+![Calendar Appearance](https://i.imgur.com/ZqAV4ar.png "Simple Calendar Date Chooser in RANGE mode")
 
-Customizable Fonts: For month/year, day headers, day buttons, and navigation buttons.
-Behavior Options:
-Disable past dates or Sundays.
-Highlight specific dates (e.g., holidays).
-Right-click to clear selections.
+## Example Usage
 
+### 1. Using in NetBeans
+1. **Add to Project**:
+   - Compile `CalendarPanel.java` and add it to the NetBeans Palette (`Tools > Palette > Swing/AWT Components`).
+2. **Add to Form**:
+   - Drag `CalendarPanel` onto a JFrame Form.
+3. **Customize**:
+   - In the Properties window, set:
+     - `selectionMode` to `RANGE`
+     - `selectedColor` to red
+     - `rangeStartEndColor` to green
+     - `selectedSingleForeground` to yellow
 
-Navigation: Switch months with arrow buttons (with hover effects).
-NetBeans Support: Edit properties in NetBeans 8.2's Properties window.
+   Below are screenshots of the Properties window showing the customization options for the `CalendarPanel`:
 
+   ![Properties Window 1](https://i.imgur.com/UATibcK.png "Properties Window - Basic Settings")
+   
+   ![Properties Window 2](https://i.imgur.com/NkwVlyA.png "Properties Window - Color Settings")
 
-Example Usage
-1. Using in NetBeans
-
-Add to Project:
-
-Compile CalendarPanel.java and add it to the NetBeans Palette (Tools > Palette > Swing/AWT Components).
-
-
-Add to Form:
-
-Drag CalendarPanel onto a JFrame Form.
-
-
-Customize:
-
-In the Properties window, set:
-selectionMode to RANGE
-selectedColor to red
-rangeStartEndColor to green
-selectedSingleForeground to yellow
-
-
-
-Below are screenshots of the Properties window showing the customization options for the CalendarPanel:
-
-
-
-2. Programmatic Usage
-```
+### 2. Programmatic Usage
+```java
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
@@ -75,7 +66,7 @@ public class CalendarDemo {
             calendar.setTodaySingleForeground(Color.BLUE);
 
             // Highlight dates
-            var datesToHighlight = new ArrayList<LocalDate>();
+            List<LocalDate> datesToHighlight = new ArrayList<>();
             datesToHighlight.add(LocalDate.of(2025, 4, 25));
             calendar.setHighlightedDates(datesToHighlight);
 
@@ -93,10 +84,10 @@ public class CalendarDemo {
     }
 }
 ```
-3. Testing
 
-Single Mode: Set selectionMode to SINGLE, click a date—it turns red with yellow text.
-Range Mode: Set selectionMode to RANGE, select two dates—start/end turn green with black text, middle dates are light green.
-Clear Selection: Right-click to clear selected dates.
+### 3. Testing
+- **Single Mode**: Set `selectionMode` to `SINGLE`, click a date—it turns red with yellow text.
+- **Range Mode**: Set `selectionMode` to `RANGE`, select two dates—start/end turn green with black text, middle dates are light green.
+- **Clear Selection**: Right-click to clear selected dates.
 
-
+![Calendar Interaction](https://i.imgur.com/CaJI9AD.gif "Selecting a range and clearing selection")
