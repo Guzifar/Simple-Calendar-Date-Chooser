@@ -223,4 +223,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - **v1.1.0** (Latest): Added a month selection popup when clicking the month-year label, with customization options (background, button colors, font). Added options to show/hide the "Today" and mode toggle buttons. Added support for tooltips on the "Today" and mode toggle buttons, and updated font styling for navigation buttons.
 - **v1.0.0**: Initial release with core functionality (single/range selection, customization, highlighted dates, etc.).
 
-[Download the latest release](https://github.com/your-repo/simple-calendar-date-chooser/releases)
+[Download the latest release](https://github.com/Guzifar/Simple-Calendar-Date-Chooser/releases/tag/v1.1.0)
