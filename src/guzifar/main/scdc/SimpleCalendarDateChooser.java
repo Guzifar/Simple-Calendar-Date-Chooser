@@ -17,6 +17,7 @@ import java.util.Locale;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +65,8 @@ public class SimpleCalendarDateChooser extends JPanel {
     private SelectionMode selectionMode;
     private LocalDate rangeStart;
     private LocalDate rangeEnd;
+    private String dateFormatPattern;
+    private DateTimeFormatter dateFormatter;
     private final List<DateSelectionListener> selectionListeners = new ArrayList<>();
 
     public enum SelectionMode {
@@ -79,7 +82,8 @@ public class SimpleCalendarDateChooser extends JPanel {
              new Font("Arial", Font.PLAIN, 12),
              new Font("Arial", Font.PLAIN, 12),
              new Font("Segoe UI Symbol", Font.BOLD, 14),
-             true, true, false, SelectionMode.SINGLE);
+             true, true, false, SelectionMode.SINGLE,
+             "MMMM dd, yyyy");
     }
 
     public SimpleCalendarDateChooser(Color headerColor, Color highlightColor, Color navBarColor,
@@ -92,7 +96,8 @@ public class SimpleCalendarDateChooser extends JPanel {
                          Font monthYearFont, Font headerFont,
                          Font dayButtonFont, Font navButtonFont,
                          boolean disablePastDates, boolean disableSundays,
-                         boolean enableHighlightedDateSelection, SelectionMode selectionMode) {
+                         boolean enableHighlightedDateSelection, SelectionMode selectionMode,
+                         String dateFormatPattern) {
         this.headerColor = headerColor != null ? headerColor : Color.DARK_GRAY;
         this.highlightColor = highlightColor != null ? highlightColor : Color.YELLOW;
         this.navBarColor = navBarColor != null ? navBarColor : new Color(240, 240, 240);
@@ -117,6 +122,8 @@ public class SimpleCalendarDateChooser extends JPanel {
         this.disableSundays = disableSundays;
         this.enableHighlightedDateSelection = enableHighlightedDateSelection;
         this.selectionMode = selectionMode != null ? selectionMode : SelectionMode.SINGLE;
+        this.dateFormatPattern = dateFormatPattern != null ? dateFormatPattern : "MMMM dd, yyyy";
+        this.dateFormatter = DateTimeFormatter.ofPattern(this.dateFormatPattern);
         currentDate = LocalDate.now();
         today = LocalDate.now();
         highlightedDates = new HashSet<>();
@@ -241,21 +248,35 @@ public class SimpleCalendarDateChooser extends JPanel {
         return new ArrayList<>(selectedDates);
     }
 
-    // Corrected method to return selected dates as String (SINGLE mode) or List<String> (RANGE mode)
     public Object getSelectedDatesAsStrings() {
         if (selectedDates.isEmpty()) {
             return selectionMode == SelectionMode.SINGLE ? "" : Collections.emptyList();
         }
 
         if (selectionMode == SelectionMode.SINGLE) {
-            return selectedDates.get(0).toString(); // Returns a single String, e.g., "2025-04-25"
+            return selectedDates.get(0).format(dateFormatter);
         } else {
             List<String> dateStrings = new ArrayList<>();
             for (LocalDate date : selectedDates) {
-                dateStrings.add(date.toString());
+                dateStrings.add(date.format(dateFormatter));
             }
-            return dateStrings; // Returns a List<String>, e.g., ["2025-04-25", "2025-04-26"]
+            return dateStrings;
         }
+    }
+
+    public void setDateFormat(String pattern) {
+        try {
+            this.dateFormatPattern = pattern != null ? pattern : "MMMM dd, yyyy";
+            this.dateFormatter = DateTimeFormatter.ofPattern(this.dateFormatPattern);
+        } catch (IllegalArgumentException e) {
+            showError("Invalid date format pattern: " + pattern);
+            this.dateFormatPattern = "MMMM dd, yyyy";
+            this.dateFormatter = DateTimeFormatter.ofPattern(this.dateFormatPattern);
+        }
+    }
+
+    public String getDateFormat() {
+        return this.dateFormatPattern;
     }
 
     public boolean isDisablePastDates() {
@@ -702,7 +723,8 @@ public class SimpleCalendarDateChooser extends JPanel {
                     new Font("Arial", Font.PLAIN, 12),
                     new Font("Arial", Font.PLAIN, 12),
                     new Font("Segoe UI Symbol", Font.BOLD, 14),
-                    true, true, true, SelectionMode.RANGE
+                    true, true, true, SelectionMode.RANGE,
+                    "MMMM dd, yyyy"
                 );
 
                 calendar.setSelectedColor(Color.RED);
@@ -723,10 +745,23 @@ public class SimpleCalendarDateChooser extends JPanel {
                 getDatesButton.addActionListener(e -> {
                     LocalDate todayDate = calendar.getTodayDate();
                     Object selected = calendar.getSelectedDatesAsStrings();
-                    String message = "Today: " + todayDate + "\nSelected Dates: " + (selected instanceof String ? selected : selected.toString());
+                    String currentFormat = calendar.getDateFormat();
+                    String message = "Today: " + todayDate.format(calendar.dateFormatter) +
+                                    "\nCurrent Format: " + currentFormat +
+                                    "\nSelected Dates: " + (selected instanceof String ? selected : selected.toString());
                     JOptionPane.showMessageDialog(frame, message);
                 });
-                frame.add(getDatesButton, BorderLayout.SOUTH);
+
+                JButton changeFormatButton = new JButton("Change Format to yyyy-MM-dd");
+                changeFormatButton.addActionListener(e -> {
+                    calendar.setDateFormat("yyyy-MM-dd");
+                    JOptionPane.showMessageDialog(frame, "Date format changed to: " + calendar.getDateFormat());
+                });
+
+                JPanel buttonPanel = new JPanel();
+                buttonPanel.add(getDatesButton);
+                buttonPanel.add(changeFormatButton);
+                frame.add(buttonPanel, BorderLayout.SOUTH);
 
                 frame.add(calendar, BorderLayout.CENTER);
                 frame.setVisible(true);
