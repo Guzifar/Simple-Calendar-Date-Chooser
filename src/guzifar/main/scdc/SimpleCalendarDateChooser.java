@@ -5,7 +5,6 @@
  */
 package guzifar.main.scdc;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.BorderLayout;
 import javax.swing.*;
 import java.awt.Dimension;
@@ -23,12 +22,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author Guzifar
+ * @author Fern
  */
 public class SimpleCalendarDateChooser extends JPanel {
     private LocalDate currentDate;
@@ -66,6 +63,7 @@ public class SimpleCalendarDateChooser extends JPanel {
     private SelectionMode selectionMode;
     private LocalDate rangeStart;
     private LocalDate rangeEnd;
+    private final List<DateSelectionListener> selectionListeners = new ArrayList<>();
 
     public enum SelectionMode {
         SINGLE, RANGE
@@ -128,7 +126,21 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Helper method to create a lighter color
+    public void addDateSelectionListener(DateSelectionListener listener) {
+        selectionListeners.add(listener);
+    }
+
+    public void removeDateSelectionListener(DateSelectionListener listener) {
+        selectionListeners.remove(listener);
+    }
+
+    private void fireDateSelectionEvent() {
+        List<LocalDate> currentSelection = new ArrayList<>(selectedDates);
+        for (DateSelectionListener listener : selectionListeners) {
+            listener.datesSelected(currentSelection);
+        }
+    }
+
     private Color getLighterColor(Color color) {
         int r = Math.min(255, color.getRed() + 50);
         int g = Math.min(255, color.getGreen() + 50);
@@ -136,12 +148,10 @@ public class SimpleCalendarDateChooser extends JPanel {
         return new Color(r, g, b);
     }
 
-    // Getter for todayDate
     public LocalDate getTodayDate() {
         return today;
     }
 
-    // Getter and Setter for todayColor
     public Color getTodayColor() {
         return todayColor;
     }
@@ -151,7 +161,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for selectedColor (for single selection background)
     public Color getSelectedColor() {
         return selectedColor;
     }
@@ -161,7 +170,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for rangeStartEndColor
     public Color getRangeStartEndColor() {
         return rangeStartEndColor;
     }
@@ -174,7 +182,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for rangeMiddleColor
     public Color getRangeMiddleColor() {
         return rangeMiddleColor;
     }
@@ -184,7 +191,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for selectedSingleForeground
     public Color getSelectedSingleForeground() {
         return selectedSingleForeground;
     }
@@ -194,7 +200,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for rangeStartEndForeground
     public Color getRangeStartEndForeground() {
         return rangeStartEndForeground;
     }
@@ -204,7 +209,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for rangeMiddleForeground
     public Color getRangeMiddleForeground() {
         return rangeMiddleForeground;
     }
@@ -214,7 +218,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for todaySingleForeground
     public Color getTodaySingleForeground() {
         return todaySingleForeground;
     }
@@ -224,7 +227,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for todayRangeForeground
     public Color getTodayRangeForeground() {
         return todayRangeForeground;
     }
@@ -234,12 +236,10 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter for selectedDates
     public List<LocalDate> getSelectedDates() {
         return new ArrayList<>(selectedDates);
     }
 
-    // Getter and Setter for disablePastDates
     public boolean isDisablePastDates() {
         return disablePastDates;
     }
@@ -249,7 +249,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for disableSundays
     public boolean isDisableSundays() {
         return disableSundays;
     }
@@ -259,7 +258,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for enableHighlightedDateSelection
     public boolean isEnableHighlightedDateSelection() {
         return enableHighlightedDateSelection;
     }
@@ -269,7 +267,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for selectionMode
     public SelectionMode getSelectionMode() {
         return selectionMode;
     }
@@ -280,9 +277,9 @@ public class SimpleCalendarDateChooser extends JPanel {
         rangeStart = null;
         rangeEnd = null;
         updateCalendar();
+        fireDateSelectionEvent();
     }
 
-    // Getter and Setter for monthYearForeground
     public Color getMonthYearForeground() {
         return monthYearForeground;
     }
@@ -294,7 +291,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         repaint();
     }
 
-    // Getter and Setter for headerForeground
     public Color getHeaderForeground() {
         return headerForeground;
     }
@@ -304,7 +300,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for navButtonForeground
     public Color getNavButtonForeground() {
         return navButtonForeground;
     }
@@ -317,7 +312,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         repaint();
     }
 
-    // Getter and Setter for dayButtonForeground
     public Color getDayButtonForeground() {
         return dayButtonForeground;
     }
@@ -327,7 +321,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for navBarColor
     public Color getNavBarColor() {
         return navBarColor;
     }
@@ -339,7 +332,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         repaint();
     }
 
-    // Getter and Setter for monthYearFont
     public Font getMonthYearFont() {
         return monthYearFont;
     }
@@ -351,7 +343,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         repaint();
     }
 
-    // Getter and Setter for headerFont
     public Font getHeaderFont() {
         return headerFont;
     }
@@ -361,7 +352,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for dayButtonFont
     public Font getDayButtonFont() {
         return dayButtonFont;
     }
@@ -371,7 +361,6 @@ public class SimpleCalendarDateChooser extends JPanel {
         updateCalendar();
     }
 
-    // Getter and Setter for navButtonFont
     public Font getNavButtonFont() {
         return navButtonFont;
     }
@@ -384,29 +373,24 @@ public class SimpleCalendarDateChooser extends JPanel {
         repaint();
     }
 
-    // Getter for headerColor
     public Color getHeaderColor() {
         return headerColor;
     }
 
-    // Setter for headerColor
     public void setHeaderColor(Color headerColor) {
         this.headerColor = headerColor != null ? headerColor : Color.DARK_GRAY;
         updateCalendar();
     }
 
-    // Getter for highlightColor
     public Color getHighlightColor() {
         return highlightColor;
     }
 
-    // Setter for highlightColor
     public void setHighlightColor(Color highlightColor) {
         this.highlightColor = highlightColor != null ? highlightColor : Color.YELLOW;
         updateCalendar();
     }
 
-    // Method to set highlighted dates
     public void setHighlightedDates(List<? extends LocalDate> dates) {
         highlightedDates.clear();
         try {
@@ -576,6 +560,7 @@ public class SimpleCalendarDateChooser extends JPanel {
                             }
                         }
                         updateCalendar();
+                        fireDateSelectionEvent();
                     });
                 }
 
@@ -667,6 +652,7 @@ public class SimpleCalendarDateChooser extends JPanel {
                         rangeStart = null;
                         rangeEnd = null;
                         updateCalendar();
+                        fireDateSelectionEvent();
                     }
                 }
             });
@@ -682,46 +668,52 @@ public class SimpleCalendarDateChooser extends JPanel {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
-                JFrame frame = new JFrame("Calendar Demo");
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                JFrame frame = new JFrame("Calendar Panel Demo");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setSize(400, 400);
                 frame.setLayout(new BorderLayout());
                 frame.setLocationRelativeTo(null);
-                //Flat laf
-                FlatLightLaf.setup();
-                FlatLightLaf.setUseNativeWindowDecorations(true);
-                UIManager.setLookAndFeel(new FlatLightLaf());
-                UIManager.put("TitlePane.font", new java.awt.Font("Segoe UI Semibold", 0, 12));
-                UIManager.put("TitlePane.showIcon", false);
-                UIManager.put("TitlePane.titleMargins", new java.awt.Insets(0, 8, 0, 0));
-                
-                // Create CalendarPanel
-                SimpleCalendarDateChooser calendar = new SimpleCalendarDateChooser();
-                calendar.setSelectionMode(SimpleCalendarDateChooser.SelectionMode.RANGE);
+
+                SimpleCalendarDateChooser calendar = new SimpleCalendarDateChooser(
+                    Color.BLUE, Color.CYAN, Color.LIGHT_GRAY,
+                    Color.DARK_GRAY, Color.BLUE, Color.BLACK, Color.BLACK,
+                    new Color(200, 255, 200), Color.ORANGE, Color.MAGENTA, null,
+                    Color.WHITE, Color.WHITE, Color.WHITE, Color.BLUE, Color.RED,
+                    new Font("Arial", Font.BOLD, 16),
+                    new Font("Arial", Font.PLAIN, 12),
+                    new Font("Arial", Font.PLAIN, 12),
+                    new Font("Segoe UI Symbol", Font.BOLD, 14),
+                    true, true, true, SelectionMode.RANGE
+                );
+
                 calendar.setSelectedColor(Color.RED);
                 calendar.setRangeStartEndColor(Color.GREEN);
                 calendar.setRangeMiddleColor(new Color(150, 255, 150));
                 calendar.setSelectedSingleForeground(Color.YELLOW);
                 calendar.setRangeStartEndForeground(Color.BLACK);
+                calendar.setRangeMiddleForeground(Color.DARK_GRAY);
                 calendar.setTodaySingleForeground(Color.BLUE);
-                
-                // Highlight dates
-                List datesToHighlight = new ArrayList<LocalDate>();
+                calendar.setTodayRangeForeground(Color.RED);
+
+                List<LocalDate> datesToHighlight = new ArrayList<>();
                 datesToHighlight.add(LocalDate.of(2025, 4, 25));
+                datesToHighlight.add(LocalDate.of(2025, 4, 26));
                 calendar.setHighlightedDates(datesToHighlight);
-                
-                // Button to show selected dates
+
                 JButton getDatesButton = new JButton("Get Dates");
                 getDatesButton.addActionListener(e -> {
-                    String message = "Selected: " + calendar.getSelectedDates();
+                    LocalDate todayDate = calendar.getTodayDate();
+                    List<LocalDate> selected = calendar.getSelectedDates();
+                    String message = "Today: " + todayDate + "\nSelected Dates: " + (selected.isEmpty() ? "None" : selected);
                     JOptionPane.showMessageDialog(frame, message);
                 });
                 frame.add(getDatesButton, BorderLayout.SOUTH);
-                
+
                 frame.add(calendar, BorderLayout.CENTER);
                 frame.setVisible(true);
-            } catch (UnsupportedLookAndFeelException ex) {
-                Logger.getLogger(SimpleCalendarDateChooser.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error initializing application.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
