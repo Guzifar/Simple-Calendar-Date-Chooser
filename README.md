@@ -166,6 +166,8 @@ Below is a screenshot of the `SimpleCalendarDateChooser` in action.
 
 ![Month Selection](https://i.imgur.com/g8tVXBE.png))
 
+![Demo](https://i.imgur.com/sgMmL8J.gif))
+
 ## Customization Options
 
 ### Colors
