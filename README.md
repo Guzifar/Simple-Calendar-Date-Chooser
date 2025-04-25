@@ -27,7 +27,7 @@ The **Simple Calendar Date Chooser** is a customizable Java Swing component (`JP
 
 ### 1. Using in NetBeans
 1. **Add to Project**:
-   - Compile `SimpleCalendarDateChooser.java` and add it to the NetBeans Palette (`Tools > Palette > Swing/AWT Components`).
+   - Compile `SimpleCalendarDateChooser.java and DateSelectionListener.java` and add it to the NetBeans Palette (`Tools > Palette > Swing/AWT Components`).
 2. **Add to Form**:
    - Drag `SimpleCalendarDateChooser` onto a JFrame Form.
 3. **Customize**:
