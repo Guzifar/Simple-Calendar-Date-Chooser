@@ -36,6 +36,19 @@ public interface DateSelectionListener {
 }
 ```
 
+## Downloading the JAR
+
+The pre-built `SimpleCalendarDateChooser.jar` is available in the release area of this repository. Follow these steps to download it:
+
+1. **Navigate to the Releases Section**:
+   - Go to the repository’s release page: [[Simple Calendar Date Chooser](https://github.com/Guzifar/Simple-Calendar-Date-Chooser/releases/tag/Release)] .
+
+2. **Download the JAR**:
+   - Find the latest release and download the `SimpleCalendarDateChooser.jar` file from the assets section.
+   - Save the JAR file to a location accessible by your project (e.g., a `lib/` folder in your project directory).
+
+The JAR includes both the `SimpleCalendarDateChooser` class and the `DateSelectionListener` interface, so you can start using it immediately in your Java projects.
+
 ## Example Usage
 
 ### 1. Using in NetBeans
@@ -58,7 +71,7 @@ public interface DateSelectionListener {
    
    ![Properties Window 2](https://i.imgur.com/NkwVlyA.png "Properties Window - Color Settings")
 
-### 2. Programmatic Usage
+### 2. Programmatic Usage with Source Code
 ```java
 import javax.swing.*;
 import java.awt.*;
@@ -128,7 +141,114 @@ public class CalendarDemo {
 }
 ```
 
-### 3. Testing
+### 3. Using the JAR File
+You can use the `SimpleCalendarDateChooser.jar` in your Java project by adding it to your classpath. This allows you to use the calendar component without including the source files directly.
+
+#### Steps to Use the JAR:
+1. **Add the JAR to Your Project**:
+   - If using an IDE like IntelliJ IDEA or Eclipse:
+     - Add the JAR to your project’s libraries:
+       - IntelliJ: `File > Project Structure > Libraries > + > Java > Select SimpleCalendarDateChooser.jar`
+       - Eclipse: `Right-click project > Build Path > Add External Archives > Select SimpleCalendarDateChooser.jar`
+   - If using the command line:
+     - Compile and run your code with the JAR in the classpath:
+       ```bash
+       javac -cp SimpleCalendarDateChooser.jar YourClass.java
+       java -cp .:SimpleCalendarDateChooser.jar YourClass  # On Windows, use ; instead of :
+       ```
+
+2. **Example Code Using the JAR**:
+   Below is an example of using the `SimpleCalendarDateChooser` from the JAR, including implementing the `DateSelectionListener` to handle date selection events:
+
+   ```java
+   import javax.swing.*;
+   import java.awt.*;
+   import java.time.LocalDate;
+   import java.util.ArrayList;
+   import java.util.List;
+
+   public class CalendarDemoWithJar implements DateSelectionListener {
+       private JLabel selectedDatesLabel;
+
+       public CalendarDemoWithJar() {
+           JFrame frame = new JFrame("Calendar Demo with JAR");
+           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+           frame.setSize(400, 400);
+           frame.setLayout(new BorderLayout());
+           frame.setLocationRelativeTo(null);
+
+           // Create SimpleCalendarDateChooser
+           SimpleCalendarDateChooser calendar = new SimpleCalendarDateChooser();
+           calendar.setSelectionMode(SimpleCalendarDateChooser.SelectionMode.RANGE);
+           calendar.setSelectedColor(Color.RED);
+           calendar.setRangeStartEndColor(Color.GREEN);
+           calendar.setRangeMiddleColor(new Color(150, 255, 150));
+           calendar.setSelectedSingleForeground(Color.YELLOW);
+           calendar.setRangeStartEndForeground(Color.BLACK);
+           calendar.setTodaySingleForeground(Color.BLUE);
+           calendar.setDateFormat("dd MMM yyyy"); // Custom date format
+
+           // Add DateSelectionListener
+           calendar.addDateSelectionListener(this);
+
+           // Highlight dates
+           List<LocalDate> datesToHighlight = new ArrayList<>();
+           datesToHighlight.add(LocalDate.of(2025, 4, 25));
+           calendar.setHighlightedDates(datesToHighlight);
+
+           // Label to display selected dates
+           selectedDatesLabel = new JLabel("Selected Dates: None", SwingConstants.CENTER);
+           selectedDatesLabel.setForeground(Color.DARK_GRAY);
+
+           // Button to change date format
+           JButton changeFormatButton = new JButton("Change Format to yyyy-MM-dd");
+           changeFormatButton.addActionListener(e -> {
+               calendar.setDateFormat("yyyy-MM-dd");
+               JOptionPane.showMessageDialog(frame, "Date format changed to: " + calendar.getDateFormat());
+           });
+
+           // Button to change hover color
+           JButton changeHoverColorButton = new JButton("Change Hover Color to Cyan");
+           changeHoverColorButton.addActionListener(e -> {
+               calendar.setNavButtonHoverForeground(Color.CYAN);
+               JOptionPane.showMessageDialog(frame, "Nav button hover color changed to Cyan");
+           });
+
+           JPanel buttonPanel = new JPanel();
+           buttonPanel.add(changeFormatButton);
+           buttonPanel.add(changeHoverColorButton);
+
+           frame.add(calendar, BorderLayout.CENTER);
+           frame.add(selectedDatesLabel, BorderLayout.NORTH);
+           frame.add(buttonPanel, BorderLayout.SOUTH);
+           frame.setVisible(true);
+       }
+
+       @Override
+       public void datesSelected(List<LocalDate> selectedDates) {
+           if (selectedDates.isEmpty()) {
+               selectedDatesLabel.setText("Selected Dates: None");
+           } else {
+               StringBuilder displayText = new StringBuilder("Selected Dates: ");
+               for (LocalDate date : selectedDates) {
+                   displayText.append(date.toString()).append(" ");
+               }
+               selectedDatesLabel.setText(displayText.toString());
+           }
+       }
+
+       public static void main(String[] args) {
+           SwingUtilities.invokeLater(CalendarDemoWithJar::new);
+       }
+   }
+   ```
+
+#### Notes on Using the JAR:
+- **Classpath**: Ensure the JAR is in your classpath when compiling and running your application.
+- **DateSelectionListener**: The JAR includes the `DateSelectionListener` interface, which you must implement to handle date selection events, as shown in the example above.
+- **No External Dependencies**: The JAR uses only standard Java libraries (Swing and `java.time`), so no additional dependencies are required.
+
+### 4. Testing
 - **Single Mode**: Set `selectionMode` to `SINGLE`, click a date—it turns red with yellow text (e.g., "25 Apr 2025" with the custom format).
 - **Range Mode**: Set `selectionMode` to `RANGE`, select two dates—start/end turn green with black text, middle dates are light green (e.g., ["25 Apr 2025", "26 Apr 2025"]).
 - **Date Format Change**: Click "Change Format to yyyy-MM-dd", then select dates—they’ll display as "2025-04-25".
