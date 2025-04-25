@@ -1,7 +1,7 @@
 # Simple Calendar Date Chooser
 
 ## Description
-The **Simple Calendar Date Chooser** is a customizable Java Swing component (`JPanel`) for selecting dates. It provides a clean and intuitive calendar interface to pick single dates or date ranges, with extensive options to customize colors, fonts, behavior, and date formatting. Ideal for applications needing a date picker, it integrates seamlessly with NetBeans 8.2's UI Builder, allowing easy customization via the Properties window.
+The **Simple Calendar Date Chooser** is a customizable Java Swing component (`JPanel`) for selecting dates. It provides a clean and intuitive calendar interface to pick single dates or date ranges, with extensive options to customize colors, fonts, behavior, and date formatting. Ideal for applications needing a date picker, it integrates seamlessly with NetBeans UI Builder, allowing easy customization via the Properties window.
 
 ## Features
 - **Selection Modes**: Choose single dates (`SINGLE`) or a date range (`RANGE`).
