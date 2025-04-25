@@ -13,7 +13,7 @@ The **Simple Calendar Date Chooser** is a customizable Java Swing component (`JP
   - Backgrounds: Single selection, range start/end, range middle, today.
   - Foregrounds: Single selection, range start/end, range middle, today (separate for single/range modes).
   - Colors for headers, navigation buttons, navigation button hover (default: RGB(180, 180, 180)), and highlighted dates.
-- **Customizable Fonts**: For month/year label, day headers, day buttons, and navigation buttons.
+- **Customizable Fonts**: For month/year label, day headers, day buttons, and navigation buttons(I recommend to only change the font size).
 - **Behavior Options**:
   - Disable past dates or Sundays.
   - Highlight specific dates (e.g., holidays) with a custom color.
