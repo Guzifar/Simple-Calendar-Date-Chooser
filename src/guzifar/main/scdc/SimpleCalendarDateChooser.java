@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -238,6 +239,23 @@ public class SimpleCalendarDateChooser extends JPanel {
 
     public List<LocalDate> getSelectedDates() {
         return new ArrayList<>(selectedDates);
+    }
+
+    // Corrected method to return selected dates as String (SINGLE mode) or List<String> (RANGE mode)
+    public Object getSelectedDatesAsStrings() {
+        if (selectedDates.isEmpty()) {
+            return selectionMode == SelectionMode.SINGLE ? "" : Collections.emptyList();
+        }
+
+        if (selectionMode == SelectionMode.SINGLE) {
+            return selectedDates.get(0).toString(); // Returns a single String, e.g., "2025-04-25"
+        } else {
+            List<String> dateStrings = new ArrayList<>();
+            for (LocalDate date : selectedDates) {
+                dateStrings.add(date.toString());
+            }
+            return dateStrings; // Returns a List<String>, e.g., ["2025-04-25", "2025-04-26"]
+        }
     }
 
     public boolean isDisablePastDates() {
@@ -704,8 +722,8 @@ public class SimpleCalendarDateChooser extends JPanel {
                 JButton getDatesButton = new JButton("Get Dates");
                 getDatesButton.addActionListener(e -> {
                     LocalDate todayDate = calendar.getTodayDate();
-                    List<LocalDate> selected = calendar.getSelectedDates();
-                    String message = "Today: " + todayDate + "\nSelected Dates: " + (selected.isEmpty() ? "None" : selected);
+                    Object selected = calendar.getSelectedDatesAsStrings();
+                    String message = "Today: " + todayDate + "\nSelected Dates: " + (selected instanceof String ? selected : selected.toString());
                     JOptionPane.showMessageDialog(frame, message);
                 });
                 frame.add(getDatesButton, BorderLayout.SOUTH);
