@@ -1,7 +1,7 @@
 # Simple Calendar Date Chooser
 
 ## Description
-The **Simple Calendar Date Chooser** is a customizable Java Swing component (`JPanel`) for selecting dates. It provides a clean and intuitive calendar interface to pick single dates or date ranges, with extensive options to customize colors, fonts, behavior, and date formatting. Ideal for applications needing a date picker, it integrates seamlessly with NetBeans UI Builder, allowing easy customization via the Properties window.
+The **Simple Calendar Date Chooser** is a customizable Java Swing component (`JPanel`) for selecting dates. It provides a clean and intuitive calendar interface to pick single dates or date ranges, with extensive options to customize colors, fonts, behavior, and date formatting. Ideal for applications needing a date picker, it integrates seamlessly with NetBeans 8.2's UI Builder, allowing easy customization via the Properties window.
 
 ## Features
 - **Selection Modes**: Choose single dates (`SINGLE`) or a date range (`RANGE`).
@@ -12,13 +12,13 @@ The **Simple Calendar Date Chooser** is a customizable Java Swing component (`JP
 - **Customizable Colors**:
   - Backgrounds: Single selection, range start/end, range middle, today.
   - Foregrounds: Single selection, range start/end, range middle, today (separate for single/range modes).
-  - Colors for headers, navigation buttons, and highlighted dates.
+  - Colors for headers, navigation buttons, navigation button hover (default: RGB(180, 180, 180)), and highlighted dates.
 - **Customizable Fonts**: For month/year label, day headers, day buttons, and navigation buttons.
 - **Behavior Options**:
   - Disable past dates or Sundays.
   - Highlight specific dates (e.g., holidays) with a custom color.
   - Right-click to clear selections.
-- **Navigation**: Switch months with arrow buttons (includes hover effects for better UX).
+- **Navigation**: Switch months with arrow buttons (includes customizable hover effects for better UX).
 - **NetBeans Support**: Edit properties directly in the NetBeans Properties window for quick customization.
 
 ![Calendar Appearance](https://i.imgur.com/ZqAV4ar.png "Simple Calendar Date Chooser in RANGE mode")
@@ -27,7 +27,7 @@ The **Simple Calendar Date Chooser** is a customizable Java Swing component (`JP
 
 ### 1. Using in NetBeans
 1. **Add to Project**:
-   - Compile `SimpleCalendarDateChooser.java and DateSelectionListener.java` and add it to the NetBeans Palette (`Tools > Palette > Swing/AWT Components`).
+   - Compile `SimpleCalendarDateChooser.java` and add it to the NetBeans Palette (`Tools > Palette > Swing/AWT Components`).
 2. **Add to Form**:
    - Drag `SimpleCalendarDateChooser` onto a JFrame Form.
 3. **Customize**:
@@ -37,6 +37,7 @@ The **Simple Calendar Date Chooser** is a customizable Java Swing component (`JP
      - `rangeStartEndColor` to green
      - `selectedSingleForeground` to yellow
      - `dateFormatPattern` to `dd MMM yyyy` (e.g., "25 Apr 2025")
+     - `navButtonHoverForeground` to cyan (optional, defaults to RGB(180, 180, 180))
 
    Below are screenshots of the Properties window showing the customization options for the `SimpleCalendarDateChooser`:
 
@@ -70,6 +71,7 @@ public class CalendarDemo {
             calendar.setRangeStartEndForeground(Color.BLACK);
             calendar.setTodaySingleForeground(Color.BLUE);
             calendar.setDateFormat("dd MMM yyyy"); // Custom date format
+            // Nav button hover color defaults to RGB(180, 180, 180)
 
             // Highlight dates
             List<LocalDate> datesToHighlight = new ArrayList<>();
@@ -93,9 +95,17 @@ public class CalendarDemo {
                 JOptionPane.showMessageDialog(frame, "Date format changed to: " + calendar.getDateFormat());
             });
 
+            // Button to change hover color
+            JButton changeHoverColorButton = new JButton("Change Hover Color to Cyan");
+            changeHoverColorButton.addActionListener(e -> {
+                calendar.setNavButtonHoverForeground(Color.CYAN);
+                JOptionPane.showMessageDialog(frame, "Nav button hover color changed to Cyan");
+            });
+
             JPanel buttonPanel = new JPanel();
             buttonPanel.add(getDatesButton);
             buttonPanel.add(changeFormatButton);
+            buttonPanel.add(changeHoverColorButton);
             frame.add(buttonPanel, BorderLayout.SOUTH);
 
             frame.add(calendar, BorderLayout.CENTER);
@@ -109,6 +119,7 @@ public class CalendarDemo {
 - **Single Mode**: Set `selectionMode` to `SINGLE`, click a date—it turns red with yellow text (e.g., "25 Apr 2025" with the custom format).
 - **Range Mode**: Set `selectionMode` to `RANGE`, select two dates—start/end turn green with black text, middle dates are light green (e.g., ["25 Apr 2025", "26 Apr 2025"]).
 - **Date Format Change**: Click "Change Format to yyyy-MM-dd", then select dates—they’ll display as "2025-04-25".
+- **Hover Color Change**: Hover over the navigation buttons (initially light gray, RGB(180, 180, 180)), then click "Change Hover Color to Cyan"—hovering should now show cyan.
 - **Clear Selection**: Right-click to clear selected dates.
 
 ![Calendar Interaction](https://i.imgur.com/CaJI9AD.gif "Selecting a range and clearing selection")
