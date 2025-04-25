@@ -23,6 +23,19 @@ The **Simple Calendar Date Chooser** is a customizable Java Swing component (`JP
 
 ![Calendar Appearance](https://i.imgur.com/ZqAV4ar.png "Simple Calendar Date Chooser in RANGE mode")
 
+## Dependencies
+
+The `SimpleCalendarDateChooser` class relies on the `DateSelectionListener` interface to notify listeners when dates are selected. Below is the source code for `DateSelectionListener.java`:
+
+```java
+import java.time.LocalDate;
+import java.util.List;
+
+public interface DateSelectionListener {
+    void datesSelected(List<LocalDate> selectedDates);
+}
+```
+
 ## Example Usage
 
 ### 1. Using in NetBeans
