@@ -11,7 +11,7 @@ The **Simple Calendar Date Chooser** is a customizable Java Swing component (`JP
   - Retrieve the current format with `getDateFormat()`.
 - **Customizable Colors**:
   - Backgrounds: Single selection, range start/end, range middle, today.
-  - Foregrounds: Single selection, range start/end, range middle, today (separate for single/range modes).
+  - Foregrounds: Single selection, range start/end, range middle, today (separate for single/range modes), highlighted dates (default: RGB(0, 0, 0)).
   - Colors for headers, navigation buttons, navigation button hover (default: RGB(180, 180, 180)), and highlighted dates.
 - **Customizable Fonts**: For month/year label, day headers, day buttons, and navigation buttons(I recommend to only change the font size).
 - **Behavior Options**:
@@ -41,7 +41,7 @@ public interface DateSelectionListener {
 The pre-built `SimpleCalendarDateChooser.jar` is available in the release area of this repository. Follow these steps to download it:
 
 1. **Navigate to the Releases Section**:
-   - Go to the repository’s release page: [[Simple Calendar Date Chooser](https://github.com/Guzifar/Simple-Calendar-Date-Chooser/releases/tag/Release)] .
+   - Go to the repository’s release page: [repository-url]/releases (replace `[repository-url]` with the actual repository URL).
 
 2. **Download the JAR**:
    - Find the latest release and download the `SimpleCalendarDateChooser.jar` file from the assets section.
@@ -64,6 +64,7 @@ The JAR includes both the `SimpleCalendarDateChooser` class and the `DateSelecti
      - `selectedSingleForeground` to yellow
      - `dateFormatPattern` to `dd MMM yyyy` (e.g., "25 Apr 2025")
      - `navButtonHoverForeground` to cyan (optional, defaults to RGB(180, 180, 180))
+     - `highlightForeground` to red (optional, defaults to RGB(0, 0, 0))
 
    Below are screenshots of the Properties window showing the customization options for the `SimpleCalendarDateChooser`:
 
@@ -97,6 +98,7 @@ public class CalendarDemo {
             calendar.setRangeStartEndForeground(Color.BLACK);
             calendar.setTodaySingleForeground(Color.BLUE);
             calendar.setDateFormat("dd MMM yyyy"); // Custom date format
+            calendar.setHighlightForeground(Color.RED); // Custom highlight foreground color
             // Nav button hover color defaults to RGB(180, 180, 180)
 
             // Highlight dates
@@ -128,10 +130,18 @@ public class CalendarDemo {
                 JOptionPane.showMessageDialog(frame, "Nav button hover color changed to Cyan");
             });
 
+            // Button to change highlight foreground color
+            JButton changeHighlightFgButton = new JButton("Change Highlight FG to Purple");
+            changeHighlightFgButton.addActionListener(e -> {
+                calendar.setHighlightForeground(Color.MAGENTA);
+                JOptionPane.showMessageDialog(frame, "Highlight foreground color changed to Purple");
+            });
+
             JPanel buttonPanel = new JPanel();
             buttonPanel.add(getDatesButton);
             buttonPanel.add(changeFormatButton);
             buttonPanel.add(changeHoverColorButton);
+            buttonPanel.add(changeHighlightFgButton);
             frame.add(buttonPanel, BorderLayout.SOUTH);
 
             frame.add(calendar, BorderLayout.CENTER);
@@ -187,6 +197,7 @@ You can use the `SimpleCalendarDateChooser.jar` in your Java project by adding i
            calendar.setRangeStartEndForeground(Color.BLACK);
            calendar.setTodaySingleForeground(Color.BLUE);
            calendar.setDateFormat("dd MMM yyyy"); // Custom date format
+           calendar.setHighlightForeground(Color.RED); // Custom highlight foreground color
 
            // Add DateSelectionListener
            calendar.addDateSelectionListener(this);
@@ -214,9 +225,17 @@ You can use the `SimpleCalendarDateChooser.jar` in your Java project by adding i
                JOptionPane.showMessageDialog(frame, "Nav button hover color changed to Cyan");
            });
 
+           // Button to change highlight foreground color
+           JButton changeHighlightFgButton = new JButton("Change Highlight FG to Purple");
+           changeHighlightFgButton.addActionListener(e -> {
+               calendar.setHighlightForeground(Color.MAGENTA);
+               JOptionPane.showMessageDialog(frame, "Highlight foreground color changed to Purple");
+           });
+
            JPanel buttonPanel = new JPanel();
            buttonPanel.add(changeFormatButton);
            buttonPanel.add(changeHoverColorButton);
+           buttonPanel.add(changeHighlightFgButton);
 
            frame.add(calendar, BorderLayout.CENTER);
            frame.add(selectedDatesLabel, BorderLayout.NORTH);
@@ -253,6 +272,7 @@ You can use the `SimpleCalendarDateChooser.jar` in your Java project by adding i
 - **Range Mode**: Set `selectionMode` to `RANGE`, select two dates—start/end turn green with black text, middle dates are light green (e.g., ["25 Apr 2025", "26 Apr 2025"]).
 - **Date Format Change**: Click "Change Format to yyyy-MM-dd", then select dates—they’ll display as "2025-04-25".
 - **Hover Color Change**: Hover over the navigation buttons (initially light gray, RGB(180, 180, 180)), then click "Change Hover Color to Cyan"—hovering should now show cyan.
+- **Highlight Foreground Change**: Highlighted dates (e.g., April 25, 2025) initially have red text; click "Change Highlight FG to Purple"—highlighted dates should now have purple text.
 - **Clear Selection**: Right-click to clear selected dates.
 
 ![Calendar Interaction](https://i.imgur.com/CaJI9AD.gif "Selecting a range and clearing selection")
