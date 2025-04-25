@@ -30,7 +30,7 @@ A customizable Swing-based calendar date chooser component for Java applications
 ## Installation
 
 1. **Download the JAR**:
-   - Download the latest `SimpleCalendarDateChooser.jar` from the [Releases](https://github.com/your-repo/simple-calendar-date-chooser/releases) page (latest version: v1.1.0).
+   - Download the latest `SimpleCalendarDateChooser.jar` from the [Releases](https://github.com/Guzifar/Simple-Calendar-Date-Chooser/releases/tag/v1.1.0) page (latest version: v1.1.0).
 
 2. **Add to Your Project**:
    - Add the JAR to your project’s build path in your IDE (e.g., Eclipse, IntelliJ IDEA).
@@ -160,9 +160,11 @@ public class CalendarDemo {
 
 ### Screenshots
 
-Below is a screenshot of the `SimpleCalendarDateChooser` in action. **Note**: This screenshot needs to be updated to reflect the new features (month selection popup, month popup customization, and show/hide functionality for the "Today" and toggle buttons) added in version 1.1.0.
+Below is a screenshot of the `SimpleCalendarDateChooser` in action.
 
-![Simple Calendar Date Chooser](https://i.imgur.com/placeholder-image.png)
+![Default](https://i.imgur.com/P9veaoX.png)
+
+![Month Selection](https://i.imgur.com/g8tVXBE.png))
 
 ## Customization Options
 
